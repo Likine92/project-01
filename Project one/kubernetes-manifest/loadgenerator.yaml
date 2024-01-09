@@ -18,23 +18,7 @@ spec:
       - name: loadgenerator
         image: gcr.io/google-samples/microservices-demo/loadgenerator:v0.2.3
         env:
-        - name: PORT
-          value: "7070"
-        - name: REDIS_ADDR
-          value: "redis-cart:6379"
-        ports: 
-        - containerPort: 7070
-
---- 
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: loadgenerator
-spec:
-  selector:
-    app.kubernetes.io/name: loadgenerator
-  ports:
-    - protocol: TCP
-      port: 7070
-      targetPort: 7070
+        - name: FRONTEND_ADDR
+          value: "frontend:80"
+        - name: USER
+          value: "10"
