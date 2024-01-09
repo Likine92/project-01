@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadgenerator
+  labels:
+    app: loadgenerator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loadgenerator
+  template:
+    metadata:
+      labels:
+        app: loadgenerator
+    spec:
+      containers:
+      - name: loadgenerator
+        image: gcr.io/google-samples/microservices-demo/loadgenerator:v0.2.3
+        env:
+        - name: PORT
+          value: "7070"
+        - name: REDIS_ADDR
+          value: "redis-cart:6379"
+        ports: 
+        - containerPort: 7070
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadgenerator
+spec:
+  selector:
+    app.kubernetes.io/name: loadgenerator
+  ports:
+    - protocol: TCP
+      port: 7070
+      targetPort: 7070
